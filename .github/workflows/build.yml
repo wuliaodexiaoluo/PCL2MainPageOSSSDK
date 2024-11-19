@@ -1,0 +1,30 @@
+name: Build
+
+on:
+    workflow_dispath:
+
+jobs:
+    build:
+        runs-on: windows-2022
+
+        steps:
+
+            - name: CheckOut Code
+              uses: actions/checkout@v4
+
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: 3.11
+
+            - name: build Code
+              run: |
+                python -m pip install pyinstaller
+                python -m pyinstaller -F main.py -p . "alisr.py" "Setup.py"
+                 # SDK 用
+                python -m compileall .
+                
+
+
+    buildold:
+        runs-on: windows-2022
