@@ -1,7 +1,7 @@
 name: Build
 
 on:
-    workflow_dispath:
+  workflow_dispatch:
 
 jobs:
     build:
@@ -23,8 +23,24 @@ jobs:
                 python -m pyinstaller -F main.py -p . "alisr.py" "Setup.py"
                  # SDK 用
                 python -m compileall .
+                python archive.py --file-path=./
                 
 
 
     buildold:
         runs-on: windows-2022
+        steps:
+            - name: CheckOut Code
+              uses: actions/checkout@v4
+
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: 3.9
+
+            - name: Resolved Code
+              run: |
+                python resolve.py --version=3.9 --resolve-file="./main.py;./alist.py;./Setup.py"
+                python -m compileall ./out
+                python -m pip install -r ./req.txt
+                python archive.py
