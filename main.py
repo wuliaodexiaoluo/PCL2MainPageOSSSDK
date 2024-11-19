@@ -59,3 +59,5 @@ for arg in sys.argv[1:]:
                     password = arg.split(" ")[1]
 
 logger.add("{time}.log",level="DEBUG", rotation="100 MB")
+
+logger.debug("登录流程开始")
